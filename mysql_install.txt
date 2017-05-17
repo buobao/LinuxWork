@@ -1,0 +1,25 @@
+cat /etc/redhat-release
+yum install mysql
+yum install mysql-devel
+
+yum install mariadb-server mariadb 
+
+mariadb数据库的相关命令是：
+systemctl start mariadb  #启动MariaDB
+systemctl stop mariadb  #停止MariaDB
+systemctl restart mariadb  #重启MariaDB
+systemctl enable mariadb  #设置开机启动
+
+systemctl start mariadb
+
+安装完成，登录
+mysql -u root -p
+
+配置文件：/etc/my.cnf
+
+
+
+把在所有数据库的所有表的所有权限赋值给位于所有IP地址的root用户。
+mysql> grant all privileges on *.* to root@'%'identified by 'password';
+如果是新用户而不是root，则要先新建用户
+mysql>create user 'username'@'%' identified by 'password';  
