@@ -1,0 +1,25 @@
+查看系统版本：cat /proc/version
+查看系统位数：getconf LONG_BIT
+
+创建目录: mkdir /usr/local/java & cd /usr/local/java
+
+下载JDK:
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+
+tar -zxvf jdk*
+
+rm -f *.tar.gz
+
+设置环境变量： vim /etc/profile
+添加：
+export JAVA_HOME=/usr/local/java/jdk1.8.0_131
+export JRE_HOME=/usr/local/java/jdk1.8.0_131/jre
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
+export PATH=$JAVA_HOME/bin: $PATH
+
+生效环境变量：source /etc/profile
+
+	插曲：修改profile文件的时候改错了，导致很多命令都不能用，这里可以使用：
+	export PATH=/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin 把路径改回来
+	或者通过bin下找到vim命令再修改profile文件：/bin/vim /etc/profile
+	
