@@ -1,0 +1,140 @@
+查看是否安装vsftp服务：rpm -q vsftpd
+安装vsftp：yum  install -y  vsftpd
+验证下安装结果:whereis  vsftpd
+
+启动、停止、重启：service vsftpd start/stop/restart
+查看运行状态：systemctl status vsftpd.service         #看到绿色就是运行了
+
+激活服务：systemctl start vsftpd.service  #同service
+设置开机启动：systemctl enable vsftpd.service
+
+配置：
+备份下配置文件先：
+cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.bak
+修改文件: (也可直接编辑)
+sed -i "s/anonymous_enable=YES/anonymous_enable=NO/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#anon_upload_enable=YES/anon_upload_enable=NO/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#chown_uploads=YES/chown_uploads=NO/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#async_abor_enable=YES/async_abor_enable=YES/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#ascii_upload_enable=YES/ascii_upload_enable=YES/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#ascii_download_enable=YES/ascii_download_enable=YES/g" '/etc/vsftpd/vsftpd.conf'
+sed -i "s/#ftpd_banner=Welcome to blah FTP service./ftpd_banner=Welcome toFTP service./g" '/etc/vsftpd/vsftpd.conf'
+
+
+use_localtime=YES
+listen_port=21
+chroot_local_user=YES
+idle_session_timeout=300
+guest_enable=YES
+guest_username=vsftpd
+user_config_dir=/etc/vsftpd/vconf
+data_connection_timeout=1
+virtual_use_local_privs=YES
+pasv_min_port=10060
+pasv_max_port=10090
+accept_timeout=5
+connect_timeout=1
+
+
+建立用户文件：
+vim /etc/vsftpd/virtusers
+
+添加用户数据：
+buobao
+320683buobao
+
+
+安装db_load：
+rpm –q  db
+yum  search db4
+yum install -y  compat-db47.x86_64
+
+生成db文件：
+db_load -T -t hash -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db
+
+设定文件权限：
+chmod 600 /etc/vsftpd/virtusers.db
+
+修改/etc/pam.d/vsftpd：
+	备份：cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.bak
+	修改、添加以下内容：
+		将auth及account的所有配置行均注释掉
+		添加：
+			auth sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers
+			account sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers
+
+
+新建系统用户vsftpd，用户目录为/home/vsftpd：
+mkdir -p /home/vsftpd   #创建用户目录
+useradd vsftpd -d /home/vsftpd -s /bin/false  #设置该用户不能登录系统
+chown -R vsftpd:vsftpd /home/vsftpd
+
+
+建立虚拟用户个人配置文件:
+mkdir /etc/vsftpd/vconf
+cd /etc/vsftpd/vconf
+touch buobao
+
+建立用户跟目录
+mkdir -p /home/vsftpd/buobao/
+
+编辑用户配置文件：vim buobao
+	配置内容如下:
+	local_root=/home/vsftpd/test/
+	write_enable=YES
+	anon_world_readable_only=NO
+	anon_upload_enable=YES
+	anon_mkdir_write_enable=YES
+	anon_other_write_enable=YES
+
+
+防火墙设置：
+firewall-cmd --permanent --zone=public --add-service=ftp
+firewall-cmd --reload
+
+
+	注意：这里有可能不识别firewall-cmd命令，需要先安装防火墙!
+		yum install firewalld
+		systemctl unmask firewalld
+		systemctl enable firewalld
+		systemctl start firewalld
+		或者
+		service iptables start
+		/etc/init.d/iptables start
+	
+
+#设置SELinux：如果SELinux打开了的话
+getsebool -a | grep ftp
+setsebool -P ftpd_full_access on
+
+	打开SELinux：
+	vim /etc/sysconfig/selinux
+	编辑：SELINUX=disabled
+
+	
+重启vsftpd服务器
+systemctl stop  vsftpd.service
+systemctl start  vsftpd.service
+systemctl status  vsftpd.service
+
+
+/home/vsftpd/buobao/下建几个文件夹测试
+mkdir  /home/vsftpd/buobao/test{1..5}
+
+浏览器输入：ftp://server_address
+
+
+OVER!
+
+
+
+
+
+
+
+
+
+
+
+
