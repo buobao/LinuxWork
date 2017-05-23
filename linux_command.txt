@@ -1,0 +1,245 @@
+基本命令：
+list ls 列出、列表 参数：l 、 a 等等
+	 无参数 普通文件
+	 -d：目录文件
+	 -b：块设备文件
+	 -c：字条设备文件
+	 -l:符号链接文件
+	 -p：命令管道文件
+	 -s：套接字文件
+	 -i：显示每个文件的索引节点，一个数字
+	 -r：逆序显示文件
+	 -R：递归显示文件， 文件目录中文件特别多的将非常消耗内存
+	 -h：文件大小单位转换，如显示文件大小为多少KB而不是B
+	 
+	 
+	 
+	 ls -l 结构：
+	 文件权限 9位：没三位一组：rwx（读写、执行）
+	 文件硬链接的次数
+	 文件的属主
+	 文件的属组
+	 文件的大小
+	 文件的时间戳，最近一次访问的时间
+	 文件名称或文件的路径名称
+	
+	隐藏文件是以点开头的
+
+
+
+目录也是文件，是路径映射文件
+路径：从指定起始点到目的地所经过的位置
+
+
+pwd 打印当前路径
+
+
+cd 目录切换，不用说了
+	cd -  :在当前目录和前一次所在的目录来回切换
+	
+	
+命令的类型：
+	内置命令，shell内置
+	外部命令
+
+type：显示指定命令属于那种类型
+
+
+printenv 显示环境变量 PATH等
+
+hash 显示缓存的命令，系统不会每次都去查找命令，使用过的命都会缓存，再次使用时会去缓存中查找    缓存为王
+
+date 显示当前时间
+
+Linux有两个时间：
+	硬件时钟
+	软件时钟
+看命令：clock和hclock的区别
+
+
+获得命令的使用帮助：
+内部命令：
+	help + 命令名  ： 如： help cd
+			也有部分内部命令支持-h
+	
+外部命令：
+	--help选项，大多数命令支持   ls --help
+	
+命令手册：manual
+man + 命令名 或者
+man + 章节 + 命令名称
+
+whatis 显示命令在哪个章节中
+
+手册分章节：
+1.用户命令
+2.系统调用
+3.库用户
+4.特殊文件 设备文件
+5.文件格式
+6.游戏
+7.杂项
+8.管理命令（/sbin /usr/sbin usr/local/sbin）
+
+手册浏览命令：
+	space:向后翻一屏
+	b：向前翻一屏
+	enter:向后翻一行
+	k：向前翻一行
+	
+查找：
+	/keyword:向后查找
+	n：下一个
+	N：前一个
+	?keyword：向前
+	
+退出：q
+
+
+
+
+
+文件系统：
+rootfs 根文件系统
+
+FHS：Linux
+
+/boot: 系统启动相关文件
+/dev: 设备文件
+	设备文件：
+		块设备：随机访问， 数据块
+		字符设备：线性访问，按字符为单位
+/etc: 配置文件
+/home:用户的家目录，每一个用户的家目录通常默认为/home/username
+/root:管理员的家目录
+/lib:库文件
+	/lib/modules:内核模块文件
+	静态库: .a
+	动态库：.so(.dll)
+
+	动态库额静态库的区别：（库就是一些被分装好的功能）
+	
+	
+/media: 挂载点目录 挂在移动设备
+ /mnt：  挂载额外的临时文件系统 
+/opt: 可选目录 ，早期用于安装第三方应用程序
+/proc: 伪文件系统，内核映射文件
+/sys:伪文件系统，跟硬件设备相关的属性映射文件
+/tmp:临时文件，
+/var:可变化的文件
+/bin: 可执行文件,用户命令
+/sbin: 管理命令
+/usr: shared ,read-only 全局共享只读文件
+	/usr/bin   密码
+	/usr/sbin
+	/usr/lib
+	/usr/local:  第三方软件运行目录，非关键性文件
+		/usr/local/bin
+		/usr/local/sbin
+	
+文件命名规则：
+		1、文件名不能超过255个字符
+		2、不能使用/当文件名
+		3、严格区分大小写
+		4、
+		
+		
+相对路径和绝对路径
+
+
+
+
+mkdir:创建目录
+	注意两个参数：-pv
+	
+题目：在mnt下创建test/x/m,y
+	命令展开：mkdir -pv test/x/{m,y}
+题目：同时创建目录,a_b,a_c,b_c,b_b
+	命令：mkdir -pv test/x/{a,b}_{b,c}
+	
+rmdir:删除目录，只能删除空目录
+
+============================================================
+
+1.创建用户mandriva，其ID为2200，基本组为distro，组ID为3300，附加组为peguin；
+groupadd -g 3300 distro
+groupadd penguin
+useradd -u 2200 -g distro -G peguin mandriva
+2.创建用户gentoo，其全名为“Gentoo”,默认shell为/bin/tcsh;
+useradd -c "Gentoo" -s /bin/tcsh gentoo
+3.修改mandriva的UID为4400，基本组为Linux，附加组为distro和gentoo；
+usermod -u 4400 -g linux -a -G distro,gentoo manfriva
+4.给gentoo添加密码，并设定其密码最短使用期限为2天，最长为60天，警告为3天，非活动期限为7天；
+echo 'gentoo' | passwd --stdin gentoo
+chage  #查看man
+
+
+linux权限管理：
+	安全模型:
+		
+		文件权限：
+			r，w，x
+		目录权限：
+			r，w，x
+			
+	文件的权限：mode：owership
+	
+文件权限的修改：
+	chmod 修改读写执行权限
+	chown 修改属主
+	chgrp 修改属组
+	
+	ex:
+	chmod 770 test  #
+	
+	操作指定用户类别的权限：
+		u:属主
+		g:属组
+		o:其他用户
+		a:all
+			指定一个或多个类别的用户：
+			chmod u=rw
+			chmod ug=
+			chmod o=r
+			等等。。。
+			
+			类似的还有+/-法：
+			chmod u+w
+			chmod o-r
+			但是加减法不适用a
+			
+	参照一个文件的权限，修改另一个文件的权限：
+			--reference=FILE
+			chmod --reference=file1 file2
+			
+	修改目录下所有文件，即递归修改：
+		chmod -R g= dirs
+	
+	
+	
+	chown [-R][--reference] USER FILE..
+	chgrp [-R][--reference] GROUP FILE..
+	
+	chown还可以改属主和属组
+		chown root:root test
+		chown :root test
+	
+	.....
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
