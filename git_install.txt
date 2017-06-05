@@ -1,0 +1,45 @@
+安装工具:
+yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel
+
+装个wget：
+yum -y install wget
+
+下载git源码：
+wget https://www.kernel.org/pub/software/scm/git/git-2.9.4.tar.gz
+
+解压:
+tar --no-same-owner -zxvf git-2.9.4.tar.gz
+
+cd git-2.9.4
+make prefix=/usr/local all
+	预装：
+		yum -y install make
+		yum -y install gcc
+		yum -y install gcc-c++
+
+make prefix=/usr/local install
+
+
+
+基本使用：
+	设置当前用户：
+		git config --global user.name "John Doe"
+		git config --global user.email johndoe@example.com
+		注，global修改当前用户主目录下的配置文件，system修改所有用户的配置文件,若果指定
+		某个项目的用户名和邮箱则在项目目录下执行以上两个命令并去除global参数
+	
+	指定编辑器，默认为vi或vim，(编辑器一般在git需要用户输入相关配置信息或者二外消息时使用)
+	git config --global core.editor emacs
+	
+	指定差异分析工具，（合并代码冲突时用以显示文件差异）,如：kdiff3，tkdiff，meld，xxdiff，emerge，vimdiff，gvimdiff，ecmerge，和 opendiff 
+	git config --global merge.tool vimdiff
+	
+	查看配置信息：
+	git config --list
+	
+	帮助：
+	git help <verb>      如： git help config
+	
+
+项目管理:
+	

@@ -2,6 +2,7 @@ Tensorflow安装:
 pip install Tensorflow
 或者
 python -m pip install --upgrade https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-0.12.0-py3-none-any.whl
+windows上引入报错参考：https://stackoverflow.com/questions/42011070/on-windows-running-import-tensorflow-generates-no-module-named-pywrap-tenso
 有必要的话升级下pip：
 pip install --upgrade pip
 
@@ -61,7 +62,6 @@ print sess.run([output], feed_dict={input1:[7.], input2:[2.]})
 
 
 
-
 MNIST机器学习入门完整代码
 
 
@@ -101,18 +101,8 @@ print sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}
 
 
 
+s_021_aa87788
+u_u100144405
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+{"ResultNo":0,"Result":{"UserId":"U100188311","ResultNo":0,"PassWord":"d916135b-ddb6-4dcf-80ac-e66b15955085","Phone":"15618605130","LastLoginDateTime":"\/Date(1495782309000+0800)\/","UpdateTime":"\/Date(1492133494000+0800)\/","CreateTime":"\/Date(1489469570000+0800)\/","CreateTime2":1489469570,"UpdateTime2":1492133494,"Status":false,"IsPushPost":true,"IsPushEstate":true,"IsPushChat":true,"IsPushSystemMsg":true,"UserPhotoUrl":"?UserId=U100188311&RM1492133494.jpg","sh_ck_user":"id=U100188311&city=021","sh_ck_user_auk":"8VFYGz5MHwJq2nS7BoKIBH9TwDmdkBC%2bbdgI0CRCWroxdDddhKSy14z2l6XbMp6aFOwJZVsFpq3UCkvBREKYxMXkhhFHL7W2n7fKGWXOA4bOXig7ek%2b1SqoAAZGYivu3yXLetHfLOMAZCW7FQdZpUxLFzWIV4O1aLx3iIyexIn6cz3NZyYTsLU6JDgnXWUePWiOIRQKlaFEG%2fuMfJQXNafb2Uj%2bweMmTnUNvfzqqJYdJHVhhlDYJfo8e%2b%2boOPiyuFpMRz8kmYfKMfCA9776UWw%3d%3d"},"Total":0}
