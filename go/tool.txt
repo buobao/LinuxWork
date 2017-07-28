@@ -1,0 +1,1 @@
+go build -ldflags "-H=windowsgui" 文件名 （windows守护进程运行）
